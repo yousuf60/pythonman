@@ -1,0 +1,314 @@
+
+
+from kivymd.app import MDApp
+from kivy.lang import Builder
+from threading import Thread
+from kivymd.uix.label import MDLabel
+from kivymd.uix.dialog import MDDialog
+
+# open("app.py",'a').write(code)
+# print(open("app.py",'r').read())
+KV="""
+#:import Clipboard kivy.core.clipboard.Clipboard
+MDFloatLayout:
+	md_bg_color:rgba("#ff5100")#0,0,0,1
+	ScreenManager:
+
+		id:main
+		MDScreen:
+			name:"main" 
+
+			RecycleView:
+				size_hint:.85,.8
+				pos_hint:{"center_x":.5}
+				
+				canvas.before:
+					Color:
+						rgba:1,1,1,1
+					RoundedRectangle:
+						pos:self.pos
+						size:self.size
+						radius:[20,20,0,0]
+				MDList:
+					spacing:dp(40)
+					
+					id:main_list
+			MDToolbar:
+				pos_hint:{"top":1}
+				md_bg_color:rgba("#ff853c")#1,1,0,.3
+				text_color_theme:"custom"
+				text_color:0,0,0,1
+				MDFlatButton:
+					pos_hint:{"top":.9}
+					text:"Code"
+					on_release:	
+						app.root.ids.main.transition.direction="left"
+						app.root.ids.main.current="code"
+
+					size_hint:None,None
+					canvas.before:
+						Color:
+							rgba:1,1,1,1
+						Rectangle:
+							pos:self.pos
+							size:self.size
+
+
+		
+	
+		MDScreen:
+			name:"code"
+			###########the code of the methode on_start
+			MDToolbar:
+				pos_hint:{"top":1}
+				md_bg_color:rgba("#ff853c")
+			MDFloatLayout:
+				size_hint:1,1
+				MDFlatButton:
+					text:"main code"
+					
+					text_color_theme:"custom"
+					text_color:0,0,0,1
+					size_hint:None,None
+					on_release:
+						app.root.ids.main.transition.direction="left"
+						app.root.ids.main.current="app"
+					pos_hint:{"right":.98,"top":.98}
+					canvas.before:
+						Color:
+							rgba:1,1,1,1
+						Rectangle:
+							pos:self.pos
+							size:self.size
+
+				MDFlatButton:
+					text:"back"
+					pos_hint:{"center_x":.1,"top":.98}
+					size_hint:None,None
+					text_color_theme:"custom"
+					text_color:0,0,0,1
+					on_release:
+						app.root.ids.main.transition.direction="right"
+						app.root.ids.main.current="main"
+					canvas.before:
+						Color:
+							rgba:1,1,1,1
+						Rectangle:
+							pos:self.pos
+							size:self.size
+			MDBoxLayout:		
+				orientation:"vertical"
+				spacing:dp(10)
+				size_hint:1,.87
+				RecycleView:
+					size_hint:1,.1
+					
+					MDBoxLayout:
+						adaptive_width:True
+					
+						spacing:dp(30)
+						pos_hint:{"center_x":.36}
+						size_hint:None,1	
+
+						MDFlatButton:
+							text:"copy"
+							#copy the code to clipboard
+							#pos_hint:{"center_x":.1,"center_y":.8}
+							on_press:Clipboard.copy(app.root.ids.code_input0.text)
+							canvas.before:
+								Color:
+									rgba:rgba("#ff9e00")
+								Rectangle:
+									pos:self.pos
+									size:self.size
+						MDFlatButton:
+							text:"paste"
+							#past from your clipboard
+							on_press:app.root.ids.code_input0.text=Clipboard.paste()
+							#pos_hint:{"center_x":.1,"center_y":.8}
+							canvas.before:
+								Color:
+									rgba:rgba("#ff9e00")
+								Rectangle:
+									pos:self.pos
+									size:self.size
+					# MDBoxLayout:
+						
+					# 	spacing:dp(30)
+					# 	pos_hint:{"center_x":.36}
+					# 	size_hint:None,.1
+
+
+
+						MDFlatButton:
+						#clean the text input
+							text:"clean"
+							on_press:app.root.ids.code_input0.text=""
+							
+							canvas.before:
+								Color:
+									rgba:rgba("#ff9e00")
+								Rectangle:
+									pos:self.pos
+									size:self.size
+						MDFlatButton:
+							text:"save"
+							#####save to the file
+							on_release:
+								x=app.check_syntax(app.root.ids.code_input0.text)
+								if x:code_file=open("code.python",'w');code_file.write(app.root.ids.code_input0.text);code_file.close()
+
+							canvas.before:
+								Color:
+									rgba:rgba("#ff9e00")
+								Rectangle:
+									pos:self.pos
+									size:self.size
+		
+
+
+				TextInput:
+					#code.py
+					muiltiline:True
+					id:code_input0
+					scroll_y:1
+					text:open("code.python",'r').read()
+					size_hint:1,.84
+					pos_hint:{"center_x":.5}
+					font_size:dp(18)
+			
+
+		MDScreen:
+			name:"app"
+			#########the code of the main app
+			MDToolbar:
+				pos_hint:{"top":1}
+				md_bg_color:rgba("#ff853c")
+				MDFlatButton:
+					text:"Code"
+					pos_hint:{"top":.9}
+					text_color_theme:"custom"
+					text_color:0,0,0,1
+					on_release:
+						app.root.ids.main.transition.direction="right"
+						app.root.ids.main.current="code"
+					size_hint:None,None
+					canvas.before:
+						Color:
+							rgba:1,1,1,1
+						Rectangle:
+							pos:self.pos
+							size:self.size
+			
+			MDBoxLayout:		
+				orientation:"vertical"
+				spacing:dp(10)
+				size_hint:1,.87
+				RecycleView:
+					size_hint:1,.1
+					MDBoxLayout:
+						adaptive_width:True
+						spacing:dp(30)
+						pos_hint:{"center_x":.36}
+						size_hint:None,1		
+
+						MDFlatButton:
+							text:"copy"
+							on_press:Clipboard.copy(app.root.ids.code_input1.text)
+							#pos_hint:{"center_x":.1,"center_y":.8}
+							canvas.before:
+								Color:
+									rgba:rgba("#ff9e00")
+								Rectangle:
+									pos:self.pos
+									size:self.size
+						MDFlatButton:
+							text:"paste"
+							#pos_hint:{"center_x":.1,"center_y":.8}
+							on_press:app.root.ids.code_input1.text=Clipboard.paste()
+							canvas.before:
+								Color:
+									rgba:rgba("#ff9e00")
+								Rectangle:
+									pos:self.pos
+									size:self.size
+					# MDBoxLayout:
+						
+					# 	spacing:dp(30)
+					# 	pos_hint:{"center_x":.36}
+					# 	size_hint:None,.1	
+
+
+						MDFlatButton:
+							text:"clean"
+							on_press:app.root.ids.code_input1.text=""
+							
+							canvas.before:
+								Color:
+									rgba:rgba("#ff9e00")
+								Rectangle:
+									pos:self.pos
+									size:self.size
+						MDFlatButton:
+							text:"save"
+							on_release:
+								x=app.check_syntax(app.root.ids.code_input1.text)
+								if x:code_app_file=open("app.python",'w');code_app_file.write(app.root.ids.code_input1.text);code_app_file.close()
+							canvas.before:
+								Color:
+									rgba:rgba("#ff9e00")
+								Rectangle:
+									pos:self.pos
+									size:self.size
+			
+				TextInput:
+					muiltiline:True
+					id:code_input1
+					scroll_y:1
+					scroll_x:1
+					do_wrap:False
+					text:open("app.python",'r').read()
+					size_hint:1,.84
+					pos_hint:{"center_x":.5}
+					font_size:dp(18)
+
+"""
+def printf(*args,**kwards):
+	main.root.ids.main_list.add_widget(MDLabel())
+	if args:
+		main.root.ids.main_list.add_widget(MDLabel(text="".join(args),halign="center",**kwards))
+		
+	else:
+		main.root.ids.main_list.add_widget(MDLabel(halign="center",**kwards))
+		
+class mainapp(MDApp):
+	def build(self):
+		return Builder.load_string(KV)
+	def on_start(self):
+		def a():
+			try:
+				self.root.ids.main.current="app"
+				MDDialog(text=str("you did something wrong")).open()
+
+				print("a")
+			except Exception as ex:MDDialog(text=str(ex)).open()
+				
+		Thread(target=a).start()
+	def check_syntax(self,code):
+		#just checking your code syntax ETC...bla bla bla bla
+		try:
+			code+="\n"
+			print("qfnlwf")
+			checker=open("checker.python",'w')
+			checker.write(code)
+			checker.close()
+			compile(code,"checker.python",'exec')
+			return True
+		except Exception as ex:
+			MDDialog(text=str(ex)).open()
+			return False
+
+main=mainapp()
+
+main.run()
+

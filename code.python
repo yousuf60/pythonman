@@ -1,0 +1,31 @@
+"""
+you can use must of python built in methods ...etc
+printf()>>>> method that you can use as print or  MDLabel ....
+enjoy etc do whatever 
+
+the app is checking the syntax ....if there is syntax errore the app will not save the code
+its recommended to edite the code outside thr app using copy & paste buttons
+
+i donno if there is libraries will not be able to work but i added >>>requests and bs4 you can use them
+
+
+THIS APP IS NOT FOR LEARNING BUT FOR ME .. IF  YOU DIDNT LIKE  IT INSTALL PYDROID AND GO TO BED :)
+
+bugs bunny HAHAHA sorry
+
+you are free to edite as you want etc..
+HAVE FUN ^-^
+"""
+
+
+printf("simple printf")
+
+printf("blablablablabla"," blablabla","\n","blablabla","\n","ETC...",)
+
+printf(text="colored printf",text_color=[1,0,1,1])
+
+import socket
+from time import sleep
+printf(text="ndewvwvbwkb")
+
+
