@@ -1,4 +1,5 @@
 # pythonman
+##this app is made with kivy & kivymd
 app that you can edite inside 
 ### this app is made especially for phones
 it's recommended to edite source codes in another editore by copy & paste
