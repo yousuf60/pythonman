@@ -4,7 +4,7 @@ printf()>>>> method that you can use as print or  MDLabel ....
 enjoy etc do whatever 
 
 the app is checking the syntax ....if there is syntax errore the app will not save the code
-its recommended to edite the code outside thr app using copy & paste buttons
+its recommended to edite the code outside the app using copy & paste buttons
 
 i donno if there is libraries will not be able to work but i added >>>requests and bs4 you can use them
 
